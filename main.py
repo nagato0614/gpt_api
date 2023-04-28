@@ -72,29 +72,29 @@ class TextboxWindow(QWidget):
         """
         ボタンがクリックされたら呼び出される関数
         """
-        text1 = self.text_box1.text()
-        max_progress = 100
-
-        youtube_id = extract_youtube_id(text1)
-        transcript_list = YouTubeTranscriptApi.list_transcripts(youtube_id)
-        subtitles_text = get_subtitles_texts(transcript_list)
-        text_list = split_string(subtitles_text, 1500)
-        for t in text_list:
-            for line in summarize_transcript(t).splitlines():
-                self.text_box2.append(line)
-                print(line)
-            self.progress_bar.setValue(max_progress / len(text_list))
+        # text1 = self.text_box1.text()
+        # max_progress = 100
+        #
+        # youtube_id = extract_youtube_id(text1)
+        # transcript_list = YouTubeTranscriptApi.list_transcripts(youtube_id)
+        # subtitles_text = get_subtitles_texts(transcript_list)
+        # text_list = split_string(subtitles_text, 1500)
+        # for t in text_list:
+        #     for line in summarize_transcript(t).splitlines():
+        #         self.text_box2.append(line)
+        #         print(line)
+        #     self.progress_bar.setValue(max_progress / len(text_list))
 
 
 if __name__ == '__main__':
-    app = QApplication([])
-    window = TextboxWindow()
-    window.show()
-    app.exec_()
-    # # YouTubeの動画URL
-    # url = "https://www.youtube.com/watch?v=uqGjOE_C4b0&ab_channel=%E6%97%A5%E6%9C%AC%E9%9B%BB%E7%94%A3%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BENidec"
-    #
-    # # YouTubeの動画IDを取得
-    # texts = summary_youtube_video(url)
-    #
-    # app = QApplication(sys.argv)
+    url = "https://www.youtube.com/watch?v=YyhfK-aBo-Y&ab_channel=GOTOConferences"
+
+    summary = Summary(url)
+    print(summary.text)
+
+    for t in summary.split_into_many(1000):
+        print("---------------------- input text ----------------------")
+        print(t)
+        print("---------------------- summary ----------------------")
+        print(summary.summarize_transcript(t))
+        break
