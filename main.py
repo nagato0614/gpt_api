@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QFont
 
-from summary import *
+from summary_youtube import *
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QProgressBar, \
     QGridLayout
@@ -93,8 +93,5 @@ if __name__ == '__main__':
     print(summary.text)
 
     for t in summary.split_into_many(1000):
-        print("---------------------- input text ----------------------")
-        print(t)
         print("---------------------- summary ----------------------")
-        print(summary.summarize_transcript(t))
-        break
+        print(summary.summarize_turbo(t))
