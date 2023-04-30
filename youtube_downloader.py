@@ -25,7 +25,8 @@ class YoutubeDownloader:
         self.id = self.extract_youtube_id(self.url)
         self.transcript_list = self.fetch()
 
-    def extract_youtube_id(self, url):
+
+    def extract_youtube_id(self, url: str):
         """
         YouTubeの動画IDをURLから抽出する関数
 

@@ -1,97 +1,34 @@
-from PyQt5.QtGui import QFont
-
 from summary_youtube import *
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QVBoxLayout, QPushButton, QLabel, QProgressBar, \
-    QGridLayout
+from summary_pdf import *
+from audio import *
+import matplotlib.pyplot as plt
+import numpy as np
 
 
-class TextboxWindow(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle('Text Boxes')
-        self.setFixedSize(500, 700)
-        self.setup_ui()
+def summary_youtube():
+    # url = "https://www.youtube.com/watch?v=YyhfK-aBo-Y&ab_channel=GOTOConferences"
 
-    def setup_ui(self):
-        """
-        テキストボックスとボタンを作成し、ウィンドウに追加するメソッド
-        """
-        self.setup_text_boxes()
-        self.setup_labels()
-        self.setup_button()
-        self.setup_progress_bar()
-        self.setup_layout()
+    url = "https://www.youtube.com/watch?v=Jq1zyNk7b4w&ab_channel=FormulaCentric"
+    summary = YoutubeSummarizer(url)
+    print(summary.text)
+    print(summary.summarizer.summary_text_list)
 
-    def setup_text_boxes(self):
-        # QLineEditオブジェクトを作成する
-        self.text_box1 = QLineEdit()
-        self.text_box1.setFixedHeight(50)
-        self.text_box1.setFont(QFont("MyricaM", 12))  # フォントを設定する
-        self.text_box2 = QLineEdit()
-        self.text_box2.setFixedHeight(400)
-        self.text_box2.setReadOnly(True)  # 書き込み不可能にする
-        self.text_box2.setFont(QFont("MyricaM", 12))  # フォントを設定する
-
-    def setup_labels(self):
-        # QLabelオブジェクトを作成する
-        self.label1 = QLabel('URL')
-        self.label1.setFont(QFont("MyricaM", 12))
-        self.label2 = QLabel('Summary')
-        self.label2.setFont(QFont("MyricaM", 12))
-
-    def setup_button(self):
-        # QPushButtonオブジェクトを作成する
-        self.button = QPushButton('Get Text')
-        self.button.setFixedHeight(50)
-        self.button.setFont(QFont("MyricaM", 12))
-
-        # QPushButtonに関数を関連付ける
-        self.button.clicked.connect(self.on_button_click)
-
-    def setup_progress_bar(self):
-        # QProgressBarオブジェクトを作成する
-        self.progress_bar = QProgressBar()
-        self.progress_bar.setBaseSize(400, 20)
-        self.progress_bar.setFont(QFont("MyricaM", 12))
-
-    def setup_layout(self):
-        # QGridLayoutオブジェクトを作成する
-        layout = QGridLayout()
-        layout.addWidget(self.label1, 0, 0)
-        layout.addWidget(self.text_box1, 1, 0)
-        layout.addWidget(self.label2, 2, 0)
-        layout.addWidget(self.text_box2, 3, 0)
-        layout.addWidget(self.button, 4, 0)
-        layout.addWidget(self.progress_bar, 5, 0)
-
-        # QWidgetにレイアウトを設定する
-        self.setLayout(layout)
-
-    def on_button_click(self):
-        """
-        ボタンがクリックされたら呼び出される関数
-        """
-        # text1 = self.text_box1.text()
-        # max_progress = 100
-        #
-        # youtube_id = extract_youtube_id(text1)
-        # transcript_list = YouTubeTranscriptApi.list_transcripts(youtube_id)
-        # subtitles_text = get_subtitles_texts(transcript_list)
-        # text_list = split_string(subtitles_text, 1500)
-        # for t in text_list:
-        #     for line in summarize_transcript(t).splitlines():
-        #         self.text_box2.append(line)
-        #         print(line)
-        #     self.progress_bar.setValue(max_progress / len(text_list))
+def summary_pdf():
+    path = "pdf/tdk.pdf"
 
 
 if __name__ == '__main__':
-    url = "https://www.youtube.com/watch?v=YyhfK-aBo-Y&ab_channel=GOTOConferences"
-
-    summary = Summary(url)
-    print(summary.text)
-
-    for t in summary.split_into_many(1000):
-        print("---------------------- summary ----------------------")
-        print(summary.summarize_turbo(t))
+    summary_youtube()
+    # print("hello world")
+    # audio = Audio()
+    # audio.open_audio()
+    #
+    # while True:
+    #     try:
+    #         audiodata = np.frombuffer(audio.read_audio(), dtype="int16")
+    #         plt.plot(audiodata)
+    #         plt.draw()
+    #         plt.pause(0.001)
+    #         plt.cla()
+    #     except KeyboardInterrupt:
+    #         break
