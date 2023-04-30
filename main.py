@@ -7,7 +7,6 @@ import numpy as np
 
 def summary_youtube():
     # url = "https://www.youtube.com/watch?v=YyhfK-aBo-Y&ab_channel=GOTOConferences"
-
     url = "https://www.youtube.com/watch?v=Jq1zyNk7b4w&ab_channel=FormulaCentric"
     summary = YoutubeSummarizer(url)
     print(summary.text)

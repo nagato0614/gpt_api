@@ -1,12 +1,6 @@
 import os
-import tiktoken
-import openai
-from tiktoken.core import *
-from pytube import YouTube
 from summarizer import GptSummarizer
 from youtube_downloader import YoutubeDownloader
-import json
-from decimal import Decimal
 
 
 class YoutubeSummarizer:
