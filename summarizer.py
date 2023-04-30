@@ -1,3 +1,4 @@
+import nltk
 import tiktoken
 import openai
 from tiktoken.core import *
@@ -5,7 +6,7 @@ import json
 from decimal import Decimal
 import os
 import re
-
+from janome.tokenizer import Tokenizer
 
 class GptSummarizer:
     """
@@ -49,7 +50,7 @@ class GptSummarizer:
         # 時々箇条書きが数字になってしまうので '-' に置換する
         output_text_list = []
         for line in self.summary_text_list:
-            pattern1 = r"\d+\. "
+            pattern1 = r"(\d+\.)|(\d+\)) "
             replaced_text1 = re.sub(pattern1, "- ", line)
             output_text_list.append(replaced_text1)
         self.summary_text_list = output_text_list
@@ -83,7 +84,9 @@ class GptSummarizer:
         """
 
         # テキストを単語に分割する
-        words = self.text.split(' ')
+        tokenizer = Tokenizer()
+        tokens = tokenizer.tokenize(self.text)
+        words = [token.surface for token in tokens]
 
         # 各単語のトークン数を1として処理する
         n_tokens = [1 for _ in words]
@@ -98,7 +101,7 @@ class GptSummarizer:
             # これまでのトークン数と現在の単語のトークン数の合計が最大トークン数を超える場合、
             # チャンクをチャンクのリストに追加し、チャンクとこれまでのトークン数をリセットする
             if tokens_so_far + token > max_tokens:
-                chunks.append(" ".join(chunk))
+                chunks.append("".join(chunk))
                 chunk = []
                 tokens_so_far = 0
 
@@ -112,7 +115,7 @@ class GptSummarizer:
 
         # 最後のチャンクを追加
         if chunk:
-            chunks.append(" ".join(chunk))
+            chunks.append("".join(chunk))
 
         self.split_text = chunks
         return chunks

@@ -13,11 +13,11 @@ def summary_youtube():
     print(summary.summarizer.summary_text_list)
 
 def summary_pdf():
-    path = "pdf/tdk.pdf"
-
+    path = "tdk_en.pdf"
+    pdf_summarizer = PdfSummarizer(path)
 
 if __name__ == '__main__':
-    summary_youtube()
+    summary_pdf()
     # print("hello world")
     # audio = Audio()
     # audio.open_audio()
