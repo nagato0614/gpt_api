@@ -44,8 +44,8 @@ class GptSummarizer:
         """
 
         # ディレクトリがなければ作成
-        if not os.path.exists("summary"):
-            os.mkdir("summary")
+        if not os.path.exists("../summary"):
+            os.mkdir("../summary")
 
         # 時々箇条書きが数字になってしまうので '-' に置換する
         output_text_list = []

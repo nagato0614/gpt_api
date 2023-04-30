@@ -50,8 +50,8 @@ class YoutubeSummarizer:
         """
 
         # ディレクトリがなければ作成する
-        if not os.path.exists("text"):
-            os.mkdir("text")
+        if not os.path.exists("../text"):
+            os.mkdir("../text")
 
         # ファイル名を指定
         file_name = f"{self.id}.txt"
