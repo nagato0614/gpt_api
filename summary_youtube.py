@@ -38,6 +38,9 @@ class Summary:
     # 受け取ったレスポンスのリスト
     response_list: list
 
+    # 入力するテキスト
+    input_text: str
+
     def __init__(self, url: str):
         """
         Summaryクラスのコンストラクタ
@@ -157,6 +160,36 @@ class Summary:
             self.summary_text_list.append(self.summarize_turbo(split_t))
         return self.summary_text_list
 
+    def generate_input_text(self, input_context):
+        """
+        GPT-3の入力テキストを生成する関数
+        :param input_context: 入力コンテキスト
+        :return: GPT-3の入力テキスト
+        """
+        self.input_text = """
+        ### 指示 ###
+        youtubeの字幕を抽出したものです.
+        重要なポイントを3点で書いてください.
+
+        ### 箇条書きの制約 ###
+        - 最大3個
+        - 日本語
+        - 箇条書き1個を100文字以内
+        - カンマは使用禁止
+        - 「。」は使用禁止
+        - 文章の終わりは体言止め（体言止めの例： ｘｘを許容する ⇒ ｘｘを許容）
+
+        ### 対象とする字幕の内容 ###
+        {text}
+
+        ### 出力形式 ###
+
+        - 箇条書き1
+        - 箇条書き2
+        - 箇条書き3
+        """.format(text=input_context)
+        return self.input_text
+
     def summarize_davinci(self, text):
         '''
         GPT-3のDavinciエンジンを使って文章を要約する関数
@@ -168,10 +201,7 @@ class Summary:
             if isinstance(obj, Decimal):
                 return int(obj)
 
-        input_text = f"これから渡す文章はyoutubeの字幕を抽出したものです.\n" \
-                     f"文章を要約してください, その時言語は日本語で表示してください.\n" \
-                     f"\n\n" \
-                     f" {text}" \
+        input_text = self.generate_input_text(text)
 
         res = openai.Completion.create(
             engine="text-davinci-003",
@@ -188,6 +218,9 @@ class Summary:
         :param text: 要約する文章
         :return: 要約された文章
         '''
+
+        input_text = self.generate_input_text(text)
+
         def decimal_to_int(obj):
             if isinstance(obj, Decimal):
                 return int(obj)
@@ -196,16 +229,10 @@ class Summary:
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "あなたは説明上手な講師です."},  # 役割設定（省略可）
-                {"role": "user", "content": f"これから渡す文章はyoutubeの字幕を抽出したものです.\n"
-                                            f"文章を要約してください, その時言語は日本語で表示してください.\n"
-                                            f"\n\n"
-                                            f"{text}"},
+                {"role": "user", "content": input_text},
             ],
             temperature=0.5
         )
         json.dumps(res, default=decimal_to_int, ensure_ascii=False)
         self.response_list.append(res)
         return res["choices"][0]["message"]["content"]
-
-
-
