@@ -1,0 +1,11 @@
+janome
+summarizer
+tiktoken
+openai
+requests
+urllib3
+beautifulsoup4
+bs4
+fake_useragent
+PyPDF2
+codecs
