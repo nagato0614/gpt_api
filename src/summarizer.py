@@ -128,7 +128,12 @@ class GptSummarizer:
         self.summary_text_list = []
         for split_t in self.split_text:
             summary = self.summarize_turbo(split_t)
+
+            print("--------------------")
+            print(split_t)
+            print("--------------------")
             print(summary)
+
             self.summary_text_list.append(summary)
         return self.summary_text_list
 

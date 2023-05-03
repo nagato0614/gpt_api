@@ -1,10 +1,6 @@
 import youtube_transcript_api
 from youtube_transcript_api import *
-import openai
 from janome.charfilter import *
-import tiktoken
-from tiktoken.core import Encoding
-from pytube import YouTube
 
 
 class YoutubeDownloader:
