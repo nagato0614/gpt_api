@@ -9,7 +9,7 @@ bs4==0.0.1
 fake_useragent
 PyPDF2==3.0.1
 djangorestframework==3.14.0
-PyAudio==0.2.13
+PyAudio
 pvporcupine==2.2.0
 numpy==1.24.2
 PyQt5==5.15.9
