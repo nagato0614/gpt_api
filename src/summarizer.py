@@ -162,15 +162,15 @@ class GptSummarizer:
             else:
                 raise Exception("モデル名が不正です : " + self.model)
 
-            print("------ 分割されたテキスト ------")
-            print(self.input_text)
-            print("------------ 要約 ------------")
+            # print("------ 分割されたテキスト ------")
+            # print(self.input_text)
+            # print("------------ 要約 ------------")
             print(summary)
 
             self.summary_text_list.append(summary)
         return self.summary_text_list
 
-    def generate_input_text(self, input_context, point=8):
+    def generate_input_text(self, input_context, point=5):
         """
         GPT-3の入力テキストを生成する関数
         参考 : https://qiita.com/m-morohashi/items/391b350075ff91f4a694
@@ -190,7 +190,7 @@ class GptSummarizer:
 
 # 文章の成約
 
-- 最大{point}個
+- 最大{point}個の文章
 - 5w1Hを明確にする
 - ',', '.', '、', '。'は使用禁止
 
@@ -198,7 +198,7 @@ class GptSummarizer:
 
 {text}
 
-# 出力形式 
+# 出力形式
 
 {example}
         """.format(text=input_context, point=point, example=example)
@@ -242,7 +242,7 @@ class GptSummarizer:
         res = openai.ChatCompletion.create(
             model=self.model,
             messages=[
-                {"role": "system", "content": "あなたは優秀な新聞記者です"},
+                {"role": "system", "content": "あなたは優秀な高校の先生です"},
                 {"role": "user", "content": input_text},
             ],
             temperature=0.5
