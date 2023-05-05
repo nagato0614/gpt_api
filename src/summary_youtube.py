@@ -40,7 +40,9 @@ class YoutubeSummarizer:
             for transcript in self.transcript_list:
                 self.text += transcript["text"] + " "
 
-        self.summarizer = GptSummarizer(self.text)
+        self.summarizer = GptSummarizer(self.text,
+                                        split_text_size=2000,
+                                        model=GptSummarizer.GPT3_TURBO)
 
         self.save_text()
         self.summarizer.save_summary(self.youtube_downloader.id)

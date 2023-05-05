@@ -113,10 +113,11 @@ class TextSplitter:
             token_num = len(indices_list)
             if token_num == 1:
                 self.token_list.append(1)
-            elif token_num == 2:
-                size = int(indices_list[1]) - int(indices_list[0]) + 1
+            elif token_num >= 2:
+                size = int(indices_list[-1]) - int(indices_list[0]) + 1
                 self.token_list.append(size)
             else:
+                print(indices_list)
                 raise ValueError("indices_listの要素数が不正です")
 
     def split(self):

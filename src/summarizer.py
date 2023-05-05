@@ -10,7 +10,7 @@ from src.split_sentences import TextSplitter
 
 class GptSummarizer:
     """
-    GPT-3を使って要約するクラス
+    GPTを使って要約するクラス
     """
 
     # 分割されたテキスト
@@ -40,7 +40,7 @@ class GptSummarizer:
     # テキストを分割するときのトークン数
     split_text_size: int
 
-    def __init__(self, text, split_text_size=1000, model=GPT3_TURBO):
+    def __init__(self, text, split_text_size=1000, model=GPT4):
         """
         コンストラクタ
         :param text: 要約する文字列
@@ -115,13 +115,10 @@ class GptSummarizer:
         Returns:
             list: 分割されたテキストのリスト
         """
-        print("max_tokens : ", max_tokens)
         # テキストを単語に分割する
         splitter = TextSplitter(self.text, self.model)
         words = splitter.split_text
         n_tokens = splitter.token_list
-        print("words : ", len(words))
-        print("n_tokens : ", len(n_tokens))
 
         chunks = []
         tokens_so_far = 0
@@ -157,20 +154,23 @@ class GptSummarizer:
         self.summary_text_list = []
         for split_t in self.split_text:
             if self.model == self.GPT3_TURBO:
-                summary = self.summarize_turbo(split_t)
+                summary = self.summarize_chat_completion(split_t)
             elif self.model == self.GPT3_DAVINCI:
                 summary = self.summarize_davinci(split_t)
+            elif self.model == self.GPT4:
+                summary = self.summarize_chat_completion(split_t)
             else:
-                summary = ""
+                raise Exception("モデル名が不正です : " + self.model)
+
             print("------ 分割されたテキスト ------")
-            print(split_t)
+            print(self.input_text)
             print("------------ 要約 ------------")
             print(summary)
 
             self.summary_text_list.append(summary)
         return self.summary_text_list
 
-    def generate_input_text(self, input_context, point=5):
+    def generate_input_text(self, input_context, point=8):
         """
         GPT-3の入力テキストを生成する関数
         参考 : https://qiita.com/m-morohashi/items/391b350075ff91f4a694
@@ -178,37 +178,30 @@ class GptSummarizer:
         :param input_context: 入力コンテキスト
         :return: GPT-3の入力テキスト
         """
-
-        print("入力テキストのトークン数 : " +
-              str(self.get_token_number(input_context)))
-
         example = ""
         for i in range(point):
-            example += "- 箇条書き" + str(i + 1) + "\n"
-
+            # example += "- 文章" + str(i + 1) + "\n"
+            example += "- \n"
         self.input_text = """
-### 指示 ###
+# 指示
 
 今から渡す文章を, 日本語を使用して{point}個の文章で纏めてください.
 さらに, 以下の成約を必ず守ってください.
 
-### 箇条書きの制約 ###
+# 文章の成約
 
-- 日本語
-- 最大{point}個　
-- 1箇条書きは30文字程度にする
+- 最大{point}個
+- 5w1Hを明確にする
 - ',', '.', '、', '。'は使用禁止
-- 文章の終わりは体言止め（体言止めの例： ｘｘを許容する ⇒ ｘｘを許容）
 
-### 対象とする字幕の内容 ###
+# 対象とする文章
 
 {text}
 
-### 出力形式 ###
+# 出力形式 
 
 {example}
         """.format(text=input_context, point=point, example=example)
-
         return self.input_text
 
     def summarize_davinci(self, text):
@@ -233,7 +226,7 @@ class GptSummarizer:
         self.response_list.append(res)
         return res.choices[0].text
 
-    def summarize_turbo(self, text):
+    def summarize_chat_completion(self, text):
         """
         GPT-3のTurboエンジンを使って文章を要約する関数
         :param text: 要約する文章
@@ -247,9 +240,9 @@ class GptSummarizer:
                 return int(obj)
 
         res = openai.ChatCompletion.create(
-            model="gpt-4",
+            model=self.model,
             messages=[
-                {"role": "system", "content": "有能なAIです"},
+                {"role": "system", "content": "あなたは優秀な新聞記者です"},
                 {"role": "user", "content": input_text},
             ],
             temperature=0.5
