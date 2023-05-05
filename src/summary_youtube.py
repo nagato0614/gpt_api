@@ -23,6 +23,7 @@ class YoutubeSummarizer:
 
     summarizer: GptSummarizer
 
+    # noinspection PyTypeChecker
     def __init__(self, url: str):
         """
         Summaryクラスのコンストラクタ
@@ -33,10 +34,11 @@ class YoutubeSummarizer:
         self.id = self.youtube_downloader.id
         self.transcript_list = self.youtube_downloader.transcript_list
 
-        # 字幕を1つの文字列にまとめる
         self.text = ""
-        for transcript in self.transcript_list:
-            self.text += transcript["text"]
+        if self.transcript_list is not None:
+            # 字幕を1つの文字列にまとめる
+            for transcript in self.transcript_list:
+                self.text += transcript["text"] + " "
 
         self.summarizer = GptSummarizer(self.text)
 
@@ -49,6 +51,10 @@ class YoutubeSummarizer:
         :return: 保存したファイル名
         """
 
+        # transcript_listがNoneの場合は何もしない
+        if self.transcript_list is None:
+            return None
+
         # ディレクトリがなければ作成する
         if not os.path.exists("../text"):
             os.mkdir("../text")
@@ -56,8 +62,8 @@ class YoutubeSummarizer:
         # ファイル名を指定
         file_name = f"{self.id}.txt"
 
-        # ファイルを開く
-        with open(f"text/{file_name}", "w") as f:
+        # ファイルを開く, ファイルが無い場合は作成する
+        with open(f"../text/{file_name}", "w", encoding='utf-8') as f:
             # 字幕をファイルに書き込む
             for transcript in self.transcript_list:
                 f.write(transcript["text"] + "\n")

@@ -21,7 +21,6 @@ class YoutubeDownloader:
         self.id = self.extract_youtube_id(self.url)
         self.transcript_list = self.fetch()
 
-
     def extract_youtube_id(self, url: str):
         """
         YouTubeの動画IDをURLから抽出する関数
@@ -52,7 +51,18 @@ class YoutubeDownloader:
         Returns:
             Transcript: 見つかった字幕のTranscriptオブジェクト。どちらの言語の字幕も見つからない場合はNone。
         """
-        transcript_list = YouTubeTranscriptApi.list_transcripts(self.id)
+
+        # YouTubeの動画IDから字幕のリストを取得する
+        try:
+            transcript_list = YouTubeTranscriptApi.list_transcripts(self.id)
+
+            # 字幕がない場合はNoneを返す
+        except NoTranscriptFound:
+            print("字幕が見つかりませんでした。")
+            return None
+        except youtube_transcript_api._errors.TranscriptsDisabled:
+            print("字幕が無効になっています。")
+            return None
 
         try:
             # 日本語の字幕を探す
