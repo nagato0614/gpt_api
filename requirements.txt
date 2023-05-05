@@ -8,4 +8,3 @@ beautifulsoup4
 bs4
 fake_useragent
 PyPDF2
-codecs
