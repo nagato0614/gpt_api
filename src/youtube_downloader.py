@@ -32,7 +32,8 @@ class YoutubeDownloader:
             str: YouTubeの動画ID
         """
         # YouTubeの動画IDの正規表現パターン
-        regex_pattern = r"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|[^\/]+\?.*v=))([a-zA-Z0-9_-]{11})"
+        regex_pattern = r"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(" \
+                        r"?:mbed)?)\/|[^\/]+\?.*v=))([a-zA-Z0-9_-]{11}) "
 
         # 正規表現パターンでIDを検索する
         match = re.search(regex_pattern, url)

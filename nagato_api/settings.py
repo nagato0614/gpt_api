@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',      # メッセージフレームワーク
     'django.contrib.staticfiles',   # 静的ファイルの管理
     'drf_test_app',                 # DRFテストアプリ
-    'rest_framework',               # RESTフレームワーク
+    'youtube_summary',               # RESTフレームワーク
 ]
 
 MIDDLEWARE = [

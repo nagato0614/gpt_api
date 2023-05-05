@@ -11,21 +11,29 @@ Class-based views
     1. Add an import:  from other_app.views import Home
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
-    1. Import the include() function: from django.urls import include, path
+    1. Import the included() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from drf_test_app.views import UserInfoViewSet
+from youtube_summary.views import YoutubeSummaryViewSet
 
-defaultRouter = routers.DefaultRouter()
+# userInfoのURLを設定する
+userInfo = routers.DefaultRouter()
+userInfo.register('userinfo', UserInfoViewSet)
 
-defaultRouter.register('userinfo', UserInfoViewSet)
+# youtubeSummaryのURLを設定する
+youtubeSummary = routers.DefaultRouter()
+youtubeSummary.register('youtubeSummary', YoutubeSummaryViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # defaultRouterのURLをincludeする
-    path('api/', include(defaultRouter.urls)),
+    path('dft_api/', include(userInfo.urls)),
+
+    # defaultRouterのURLをincludeする
+    path('youtube_summary/', include(youtubeSummary.urls)),
 ]

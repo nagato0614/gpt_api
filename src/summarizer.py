@@ -1,3 +1,7 @@
+"""
+GPTを使って要約するクラス
+"""
+
 import tiktoken
 import openai
 from tiktoken.core import *
@@ -180,7 +184,6 @@ class GptSummarizer:
         """
         example = ""
         for i in range(point):
-            # example += "- 文章" + str(i + 1) + "\n"
             example += "- \n"
         self.input_text = """
 # 指示
@@ -212,6 +215,11 @@ class GptSummarizer:
         """
 
         def decimal_to_int(obj):
+            """
+            Decimal型をint型に変換する関数
+            :param obj:
+            :return:
+            """
             if isinstance(obj, Decimal):
                 return int(obj)
 
@@ -236,6 +244,11 @@ class GptSummarizer:
         input_text = self.generate_input_text(text)
 
         def decimal_to_int(obj):
+            """
+            Decimal型をint型に変換する関数
+            :param obj:
+            :return:
+            """
             if isinstance(obj, Decimal):
                 return int(obj)
 
