@@ -2,7 +2,7 @@
 YoutubeSummaryのテストモジュール
 """
 from django.test import TestCase
-from .models import YoutubeSummary
+from .models import GptAPI
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
@@ -20,7 +20,7 @@ class YoutubeSummaryTestCase(TestCase):
         """
         テスト実行前に実行される関数
         """
-        obj = YoutubeSummary(
+        obj = GptAPI(
             video_id="test_video_id",
             title="test_title",
             summary={
@@ -38,7 +38,7 @@ class YoutubeSummaryTestCase(TestCase):
         """
         YoutubeSummaryのテスト
         """
-        qs_count = YoutubeSummary.objects.count()
+        qs_count = GptAPI.objects.count()
         print("qs_count : ", qs_count)
         self.assertEqual(qs_count, 1)
 
