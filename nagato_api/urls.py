@@ -36,4 +36,6 @@ urlpatterns = [
 
     # defaultRouterのURLをincludeする
     path('youtube_summary/', include(youtubeSummary.urls)),
+
+    path('', include('gpt_tools.urls')),
 ]

@@ -8,8 +8,6 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework.test import APIRequestFactory
-from .views import YoutubeSummaryViewSet
-
 
 class YoutubeSummaryTestCase(TestCase):
     """
