@@ -18,4 +18,4 @@ class GptAPISerializer(serializers.ModelSerializer):
         model = GptAPI
 
         # jsonに含めるフィールドを指定
-        fields = ('video_id', 'title', 'summary')
+        fields = ('video_id', 'url', 'title', 'summary')

@@ -8,9 +8,19 @@ class GptAPI(models.Model):
     """
     Youtubeの動画の要約を保存するモデル
     """
-    video_id = models.CharField(max_length=100, primary_key=True)
-    title = models.CharField(max_length=100, default="")
-    summary = models.JSONField(default=list)
+    video_id = models.CharField(verbose_name='動画ID',
+                                max_length=100,
+                                primary_key=True)
+    url = models.CharField(verbose_name='URL',
+                           max_length=200,
+                           default="")
+    title = models.CharField(verbose_name='タイトル',
+                             max_length=100,
+                             default="")
+    summary = models.JSONField(verbose_name='要約',
+                               blank=True,
+                               null=True,
+                               default=[])
 
     def __str__(self):
         """
