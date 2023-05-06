@@ -18,7 +18,7 @@ class YoutubeSummaryTestCase(TestCase):
             video_id="test_video_id",
             title="test_title",
             summary={
-                ["test_summary1", "test_summary2"]
+                "summary": ["test_summary1", "test_summary2"]
             }
         )
         obj.save()
