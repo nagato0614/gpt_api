@@ -4,7 +4,7 @@
 from django.db import models
 
 
-class YoutubeSummary(models.Model):
+class GptAPI(models.Model):
     """
     Youtubeの動画の要約を保存するモデル
     """

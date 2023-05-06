@@ -4,10 +4,10 @@ Serializer for YoutubeSummary model
 from dataclasses import fields
 from pyexpat import model
 from rest_framework import serializers
-from .models import YoutubeSummary
+from .models import GptAPI
 
 
-class YoutubeSummarySerializer(serializers.ModelSerializer):
+class GptAPISerializer(serializers.ModelSerializer):
     """
     Serializer for YoutubeSummary model
     """
@@ -15,7 +15,7 @@ class YoutubeSummarySerializer(serializers.ModelSerializer):
         """
         Metaclass for YoutubeSummarySerializer
         """
-        model = YoutubeSummary
+        model = GptAPI
 
         # jsonに含めるフィールドを指定
         fields = ('video_id', 'title', 'summary')
