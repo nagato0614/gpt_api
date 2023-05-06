@@ -20,7 +20,7 @@ class GptAPI(models.Model):
     summary = models.JSONField(verbose_name='要約',
                                blank=True,
                                null=True,
-                               default=[])
+                               default=list)
 
     def __str__(self):
         """

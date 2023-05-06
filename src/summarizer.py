@@ -80,6 +80,7 @@ class GptSummarizer:
             line_list = s.split("\n")
 
             for line in line_list:
+                print(line)
                 # 戦闘が数字で始まる箇条書きを '-' に置換する
                 pattern1 = r"^(\d+\.)|(\d+\)) "
                 replaced_text1 = re.sub(pattern1, "- ", line)

@@ -1,6 +1,6 @@
 import os
-from summarizer import GptSummarizer
-from youtube_downloader import YoutubeDownloader
+from src.summarizer import GptSummarizer
+from src.youtube_downloader import YoutubeDownloader
 
 
 class YoutubeSummarizer:
@@ -21,6 +21,7 @@ class YoutubeSummarizer:
     # Youtubeの字幕を纏めた文字列
     text: str
 
+    # 要約した文字列
     summarizer: GptSummarizer
 
     # noinspection PyTypeChecker
@@ -31,21 +32,27 @@ class YoutubeSummarizer:
         """
         self.response_list = []
         self.youtube_downloader = YoutubeDownloader(url)
-        self.id = self.youtube_downloader.id
-        self.transcript_list = self.youtube_downloader.transcript_list
+        self.summarizer = None
 
-        self.text = ""
-        if self.transcript_list is not None:
-            # 字幕を1つの文字列にまとめる
-            for transcript in self.transcript_list:
-                self.text += transcript["text"] + " "
+        # YouTubeの動画IDが取得できた場合
+        if self.youtube_downloader.transcript_list is not None:
 
-        self.summarizer = GptSummarizer(self.text,
-                                        split_text_size=2000,
-                                        model=GptSummarizer.GPT3_TURBO)
+            # YouTubeの動画タイトルを取得する
+            self.id = self.youtube_downloader.id
+            self.transcript_list = self.youtube_downloader.transcript_list
 
-        self.save_text()
-        self.summarizer.save_summary(self.youtube_downloader.id)
+            self.text = ""
+            if self.transcript_list is not None:
+                # 字幕を1つの文字列にまとめる
+                for transcript in self.transcript_list:
+                    self.text += transcript["text"] + " "
+
+            self.summarizer = GptSummarizer(self.text,
+                                            split_text_size=2000,
+                                            model=GptSummarizer.GPT3_TURBO)
+
+        # self.save_text()
+        # self.summarizer.save_summary(self.youtube_downloader.id)
 
     def save_text(self):
         """

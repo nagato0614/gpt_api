@@ -32,8 +32,7 @@ class YoutubeDownloader:
             str: YouTubeの動画ID
         """
         # YouTubeの動画IDの正規表現パターン
-        regex_pattern = r"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(" \
-                        r"?:mbed)?)\/|[^\/]+\?.*v=))([a-zA-Z0-9_-]{11}) "
+        regex_pattern = r"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|[^\/]+\?.*v=))([a-zA-Z0-9_-]{11})"
 
         # 正規表現パターンでIDを検索する
         match = re.search(regex_pattern, url)
@@ -55,6 +54,7 @@ class YoutubeDownloader:
 
         # YouTubeの動画IDから字幕のリストを取得する
         try:
+            print(self.id)
             transcript_list = YouTubeTranscriptApi.list_transcripts(self.id)
 
             # 字幕がない場合はNoneを返す
@@ -63,6 +63,9 @@ class YoutubeDownloader:
             return None
         except youtube_transcript_api._errors.TranscriptsDisabled:
             print("字幕が無効になっています。")
+            return None
+        except AttributeError:
+            print("YoutubeDownloader :  AttributeError")
             return None
 
         try:
