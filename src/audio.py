@@ -1,8 +1,6 @@
 import pyaudio
 import os
 import pvporcupine
-import struct
-import numpy as np
 
 
 class Audio:
