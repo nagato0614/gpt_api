@@ -14,4 +14,5 @@ urlpatterns = [
 
     # gpt_toolsのURLをincludeする
     path('', views.index, name='index'),
+    path('youtube_summary/', views.youtube_summary, name='youtube_summary'),
 ]

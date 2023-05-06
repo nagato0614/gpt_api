@@ -8,7 +8,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from rest_framework.test import APIRequestFactory
-from .views import YoutubeSummaryViewSet
+from .views import *
 
 class YoutubeSummaryTestCase(TestCase):
     """
@@ -29,7 +29,7 @@ class YoutubeSummaryTestCase(TestCase):
         obj.save()
 
         self.factory = APIRequestFactory()
-        self.view = YoutubeSummaryViewSet.as_view({'get': 'list'})
+        self.view = GptAPIViewSet.as_view({'get': 'list'})
         self.item_url = "youtube_summary/"
         self.host_url = "https://127.0.0.1:8000/"
 

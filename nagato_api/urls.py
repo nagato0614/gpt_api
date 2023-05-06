@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from drf_test_app.views import UserInfoViewSet
-from youtube_summary.views import YoutubeSummaryViewSet
+from gpt_api.views import GptAPIViewSet
 
 # userInfoのURLを設定する
 userInfo = routers.DefaultRouter()
@@ -26,7 +26,7 @@ userInfo.register('userinfo', UserInfoViewSet)
 
 # youtubeSummaryのURLを設定する
 youtubeSummary = routers.DefaultRouter()
-youtubeSummary.register('youtubeSummary', YoutubeSummaryViewSet)
+youtubeSummary.register('youtubeSummary', GptAPIViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,7 +35,7 @@ urlpatterns = [
     path('dft_api/', include(userInfo.urls)),
 
     # defaultRouterのURLをincludeする
-    path('youtube_summary/', include(youtubeSummary.urls)),
+    path('gpt_api/', include(youtubeSummary.urls)),
 
     path('', include('gpt_tools.urls')),
 ]

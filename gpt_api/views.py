@@ -7,7 +7,7 @@ from .models import YoutubeSummary
 from .serializer import YoutubeSummarySerializer
 
 
-class YoutubeSummaryViewSet(viewsets.ModelViewSet):
+class GptAPIViewSet(viewsets.ModelViewSet):
     """
     APIのエンドポイントを定義するクラス
     """

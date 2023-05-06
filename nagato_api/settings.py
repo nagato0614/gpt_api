@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',  # セッションフレームワーク
     'django.contrib.messages',  # メッセージフレームワーク
     'django.contrib.staticfiles',  # 静的ファイルの管理
+    'django_bootstrap5',  # Bootstrap5を使用するためのライブラリ
     'drf_test_app',  # DRFテストアプリ
-    'youtube_summary',  # RESTフレームワーク
+    'gpt_api',  # RESTフレームワーク
     'gpt_tools'  # chatGPT API を使用したツール
 ]
 
