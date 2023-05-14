@@ -2,15 +2,18 @@ import os
 from src.summarizer import GptSummarizer
 from src.youtube_downloader import YoutubeDownloader
 
+import youtube_summarizer
+from src.youtube_summarizer import *
 
-class YoutubeSummarizer:
+
+class YoutubeSummary:
     """
     Youtubeの字幕を要約するクラス
     字幕をベクトル化して、要約する
     """
 
     # YoutubeDownloaderクラスのインスタンス
-    youtube_downloader: YoutubeDownloader
+    downloader: YoutubeDownloader
 
     # YouTubeの動画タイトル
     title: str
@@ -22,7 +25,7 @@ class YoutubeSummarizer:
     text: str
 
     # 要約した文字列
-    summarizer: GptSummarizer
+    summarizer: YoutubeSummarizer
 
     # noinspection PyTypeChecker
     def __init__(self, url: str):
@@ -31,15 +34,15 @@ class YoutubeSummarizer:
         :param url: YouTubeの動画URL
         """
         self.response_list = []
-        self.youtube_downloader = YoutubeDownloader(url)
+        self.downloader = YoutubeDownloader(url)
         self.summarizer = None
 
         # YouTubeの動画IDが取得できた場合
-        if self.youtube_downloader.transcript_list is not None:
+        if self.downloader.transcript_list is not None:
 
             # YouTubeの動画タイトルを取得する
-            self.id = self.youtube_downloader.id
-            self.transcript_list = self.youtube_downloader.transcript_list
+            self.id = self.downloader.id
+            self.transcript_list = self.downloader.transcript_list
 
             self.text = ""
             if self.transcript_list is not None:
@@ -47,10 +50,14 @@ class YoutubeSummarizer:
                 for transcript in self.transcript_list:
                     self.text += transcript["text"] + " "
 
-            self.summarizer = GptSummarizer(self.text,
-                                            split_text_size=2000,
-                                            model=GptSummarizer.GPT3_TURBO)
+            self.summarizer = YoutubeSummarizer(self.text,
+                                                title=self.downloader.title,
+                                                split_text_size=2000,
+                                                model=GptSummarizer.GPT3_TURBO)
 
+            # self.summarizer = GptSummarizer(self.text,
+            #                                 split_text_size=2000,
+            #                                 model=GptSummarizer.GPT3_TURBO)
         # self.save_text()
         # self.summarizer.save_summary(self.youtube_downloader.id)
 
@@ -79,10 +86,11 @@ class YoutubeSummarizer:
 
         return file_name
 
-    def remove_newlines(self, series):
+    @staticmethod
+    def remove_newlines(series):
         """
         文字列の改行を削除する関数
-        :param serie: 文字列のSeries
+        :param series: 文字列のSeries
         :return: 改行を削除した文字列のSeries
         """
         series = series.str.replace('\n', ' ')

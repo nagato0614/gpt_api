@@ -82,7 +82,7 @@ class GptSummarizer:
             for line in line_list:
                 print(line)
                 # 戦闘が数字で始まる箇条書きを '-' に置換する
-                pattern1 = r"^(\d+\.)|(\d+\)) "
+                pattern1 = r"(^(\d+\.))|(^(\d+))|(^(\d+\))) "
                 replaced_text1 = re.sub(pattern1, "- ", line)
 
                 # - で始まる行だけ取り出す.
@@ -158,6 +158,7 @@ class GptSummarizer:
 
         self.summary_text_list = []
         for split_t in self.split_text:
+
             if self.model == self.GPT3_TURBO:
                 summary = self.summarize_chat_completion(split_t)
             elif self.model == self.GPT3_DAVINCI:
@@ -167,9 +168,9 @@ class GptSummarizer:
             else:
                 raise Exception("モデル名が不正です : " + self.model)
 
-            # print("------ 分割されたテキスト ------")
-            # print(self.input_text)
-            # print("------------ 要約 ------------")
+            print("------ 分割されたテキスト ------")
+            print(self.input_text)
+            print("------------ 要約 ------------")
             print(summary)
 
             self.summary_text_list.append(summary)

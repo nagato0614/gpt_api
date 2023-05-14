@@ -1,5 +1,6 @@
-from summary_youtube import *
+from youtube_summary import *
 from summary_pdf import *
+from youtube_downloader import *
 
 
 def summary_youtube():
@@ -8,15 +9,24 @@ def summary_youtube():
     # url = "https://www.youtube.com/watch?v=H7Ytt07yyhM&ab_channel=FORMULA1"
     url = "https://www.youtube.com/watch?v=0WwJOVwluRQ&ab_channel=%E3%82%AB" \
           "%E3%83%BC%E3%83%95%E3%82%A3%E3%83%BC%E3%83%AA%E3%83%B3%E3%82%B0 "
-    summary = YoutubeSummarizer(url)
+    summary = YoutubeSummary(url)
     print(summary.text)
+    count = 0
     if summary.text is not None:
-        print(summary.summarizer.summary_text_list)
+        for line in summary.summarizer.summary_text_list:
+            print(str(count) + " : " + line)
 
 
 def summary_pdf():
     path = "tdk_en.pdf"
     pdf_summarizer = PdfSummarizer(path)
+
+
+def youtube_viede_download():
+    url = "https://www.youtube.com/watch?v=H7Ytt07yyhM&ab_channel=FORMULA1"
+    youtube_downloader = YoutubeDownloader(url)
+    print(youtube_downloader.title)
+    youtube_downloader.download_audio()
 
 
 if __name__ == '__main__':

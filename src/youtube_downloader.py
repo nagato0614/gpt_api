@@ -1,6 +1,7 @@
 import youtube_transcript_api
 from youtube_transcript_api import *
 from janome.charfilter import *
+import pytube
 
 
 class YoutubeDownloader:
@@ -19,6 +20,8 @@ class YoutubeDownloader:
         """
         self.url = url
         self.id = self.extract_youtube_id(self.url)
+        self.pytube = pytube.YouTube(self.url)
+        self.title = self.pytube.title
         self.transcript_list = self.fetch()
 
     def extract_youtube_id(self, url: str):
@@ -42,6 +45,28 @@ class YoutubeDownloader:
             return match.group(1)
         else:
             return None
+
+    def download_audio(self):
+        """
+        youtubeから指定したidの動画を取得する
+        :return:
+        """
+        # YouTubeの動画URLから動画IDを抽出する
+        # id = self.extract_youtube_id(self.url)
+
+        # 動画IDが取得できなかった場合は何もしない
+        if self.id is None:
+            return None
+
+        # YouTubeの動画をダウンロードする
+        try:
+            youtube: pytube.YouTube = pytube.YouTube(self.url)
+            video = youtube.streams.get_audio_only()
+            video.download("video", filename=self.id)
+        except Exception as e:
+            print(e)
+            return None
+
 
     def find_ja_or_en_transcript(self):
         """
