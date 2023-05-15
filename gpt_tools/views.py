@@ -4,7 +4,7 @@ gpt_toolsの view を設定する
 from django.shortcuts import render
 from .forms import SummaryForm
 from gpt_api.models import GptAPI
-from src.summary_youtube import YoutubeSummarizer
+from src.youtube_summary import YoutubeSummarizer
 import queue
 
 
