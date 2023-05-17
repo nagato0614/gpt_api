@@ -14,7 +14,7 @@ def summary_youtube():
     count = 0
     if summary.text is not None:
         for line in summary.summarizer.summary_text_list:
-            print(str(count) + " : " + line)
+            print("line [" + str(count) + "] : " + line)
 
 
 def summary_pdf():

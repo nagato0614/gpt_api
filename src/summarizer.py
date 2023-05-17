@@ -78,9 +78,9 @@ class GptSummarizer:
         for s in self.summary_text_list:
             # 改行文字で分割してリストにする.
             line_list = s.split("\n")
+            print(line_list)
 
             for line in line_list:
-                print(line)
                 # 戦闘が数字で始まる箇条書きを '-' に置換する
                 pattern1 = r"(^(\d+\.))|(^(\d+))|(^(\d+\))) "
                 replaced_text1 = re.sub(pattern1, "- ", line)
@@ -89,6 +89,8 @@ class GptSummarizer:
                 pattern2 = r"^- "
                 if re.match(pattern2, replaced_text1):
                     output_text_list.append(replaced_text1)
+                print(replaced_text1)
+
 
         self.summary_text_list = output_text_list
 

@@ -1,8 +1,7 @@
 """
 GptSummarizerを継承してyoutube動画の要約に特化させたクラス
 """
-from summarizer import *
-
+from src.summarizer import GptSummarizer
 
 class YoutubeSummarizer(GptSummarizer):
     """

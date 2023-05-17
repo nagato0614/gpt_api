@@ -1,8 +1,6 @@
 import os
 from src.summarizer import GptSummarizer
 from src.youtube_downloader import YoutubeDownloader
-
-import youtube_summarizer
 from src.youtube_summarizer import *
 
 

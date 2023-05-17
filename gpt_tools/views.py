@@ -4,9 +4,7 @@ gpt_toolsの view を設定する
 from django.shortcuts import render
 from .forms import SummaryForm
 from gpt_api.models import GptAPI
-from src.summary_youtube import YoutubeSummarizer
-import queue
-
+from src.youtube_summary import YoutubeSummary
 
 
 def index(request):
@@ -29,7 +27,7 @@ def index(request):
         print("url : ", url)
 
         # youtube_summarizerを作成
-        youtube_summarizer = YoutubeSummarizer(url)
+        youtube_summarizer = YoutubeSummary(url)
         if youtube_summarizer.summarizer is None:
             return render(request, 'hello_world/index.html', context=context)
 
