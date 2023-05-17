@@ -6,7 +6,6 @@ from .forms import SummaryForm
 from gpt_api.models import GptAPI
 from src.youtube_summary import YoutubeSummary
 
-
 def index(request):
     """
     indexページを表示する
