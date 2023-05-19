@@ -35,6 +35,8 @@ class YoutubeSummary:
         self.downloader = YoutubeDownloader(url)
         self.summarizer = None
 
+        self.can_summarize = False
+
         # YouTubeの動画IDが取得できた場合
         if self.downloader.transcript_list is not None:
 
@@ -48,16 +50,14 @@ class YoutubeSummary:
                 for transcript in self.transcript_list:
                     self.text += transcript["text"] + " "
 
-            self.summarizer = YoutubeSummarizer(self.text,
-                                                title=self.downloader.title,
-                                                split_text_size=2000,
-                                                model=GptSummarizer.GPT3_TURBO)
+            self.can_summarize = True
 
-            # self.summarizer = GptSummarizer(self.text,
-            #                                 split_text_size=2000,
-            #                                 model=GptSummarizer.GPT3_TURBO)
-        # self.save_text()
-        # self.summarizer.save_summary(self.youtube_downloader.id)
+
+    def start(self):
+        self.summarizer = YoutubeSummarizer(self.text,
+                                            title=self.downloader.title,
+                                            split_text_size=2000,
+                                            model=GptSummarizer.GPT3_TURBO)
 
     def save_text(self):
         """

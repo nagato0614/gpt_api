@@ -5,6 +5,8 @@ from django.shortcuts import render
 from .forms import SummaryForm
 from gpt_api.models import GptAPI
 from src.youtube_summary import YoutubeSummary
+from .task import task_summarizer
+
 
 def index(request):
     """
@@ -27,19 +29,14 @@ def index(request):
 
         # youtube_summarizerを作成
         youtube_summarizer = YoutubeSummary(url)
-        if youtube_summarizer.summarizer is None:
+
+        # youtube_summarizerが作成できなかった場合
+        if youtube_summarizer.can_summarize is False:
             return render(request, 'hello_world/index.html', context=context)
 
-        for summary in youtube_summarizer.summarizer.summary_text_list:
-            obj.summary.append(summary)
+        # youtube_summarizerを実行
+        task_summarizer.delay(youtube_summarizer, obj)
 
-        # video_idを保存
-        video_id = youtube_summarizer.id
-        obj.video_id = video_id
-
-        obj.title = "no title"
-
-        obj.save()
     return render(request, 'hello_world/index.html', context=context)
 
 
